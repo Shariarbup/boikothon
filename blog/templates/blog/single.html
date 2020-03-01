@@ -1,0 +1,128 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}
+
+
+{% endblock title%}
+
+{% block profile %}
+	<div class="fh5co-bio">
+		<figure>
+			<img src="{{ post.article_author.profile_picture.url }}" alt="Free HTML5 Bootstrap Template" class="img-responsive">
+		</figure>
+		<h3 class="heading">About Me</h3>
+		<h2>{{ post.article_author.name.username }}</h2>
+		<h2>{{ post.article_author.name.get_full_name }}</h2>
+		<h2>{{ post.article_author.name.email }}</h2>
+		<p>{{ post.article_author.details }}</p>
+		<ul class="fh5co-social">
+			<li><a href="#"><i class="icon-twitter"></i></a></li>
+			<li><a href="#"><i class="icon-facebook"></i></a></li>
+			<li><a href="#"><i class="icon-instagram"></i></a></li>
+		</ul>
+	</div>	
+
+{% endblock profile %}
+{% block stylesheet %} 
+
+
+{% endblock stylesheet %}
+	<!-- END #fh5co-header -->
+	{% block content %}
+
+	{% if post.id %}
+			{% if post.id > first_post.id %}
+				<a href="{% url 'single_post' id=post.id|add:'-1' %}" class="fh5co-post-prev"><span><i class="icon-chevron-left"></i> Prev</span></a>
+			{% endif %}
+
+			{% if post.id < last_post.id %}
+			   <a href="{% url 'single_post' id=post.id|add:'1' %}" class="fh5co-post-next"><span>Next <i class="icon-chevron-right"></i></span></a>
+			{% endif %}
+	{% endif %}
+	<!-- END #fh5co-header -->
+	<div class="container-fluid">
+		<div class="row fh5co-post-entry single-entry">
+			<article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
+				<figure class="animate-box">
+					<img src="{{ post.image.url }}" alt="Image" class="img-responsive">
+				</figure>
+				<span class="fh5co-meta animate-box"><a href="{% url 'category' name=post.category.name %}">{{ post.category.name }}</a></span>
+				<h2 class="fh5co-article-title animate-box">{{ post.title }}</h2>
+				<span class="fh5co-meta fh5co-date animate-box">{{ post.posted_on }}</span>
+				
+				<div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
+					<div class="row">
+						<div class="col-lg-12 cp-r animate-box">
+							<p>
+								{{ post.body }}
+							</p>
+						</div>
+						
+					</div>
+
+					
+				</div>
+
+					
+					
+					
+				</div>
+			</article>
+
+			<div class="container">
+				<div class="well">Related Post</div>
+				<div class="row">
+					{% for related_post in related_posts %}
+					<div class="col-md-3">
+						<figure class="animate-box">
+							<a href="{% url 'single_post' id=related_post.id %}"><img src="{{ related_post.image.url }}" alt="Image" class="img-responsive"></a>
+						</figure>
+						<a href="{% url 'single_post' id=related_post.id %}"><h2 class="fh5co-article-title animate-box">{{ related_post.title }}</h2></a>
+						<p>{{ related_post.body|truncatewords:15 }}</p>
+					</div>
+					{% endfor %}
+				</div>
+		   </div>
+
+		   <h3 class="well">Comments</h3>
+		   <div class="container">
+		   <div class="single_post_comment">
+			   {% for comment in comments %}
+			   		<div class="single_comment">
+						<h4>{{ comment.name }}</h4>
+						<h5>{{ comment.email }}</h5>
+						<p>{{ comment.post_comment }}</p>
+					</div>
+					{% empty %}
+					<h3>Sorry, No comments found.</h3>
+
+			   {% endfor %}
+		   </div>
+		  </div>
+		  
+		   <div class="panel panel-default">
+			   <div class="panel-heading">
+				   <h4 class="panel-title">Comment</h4>
+			   </div>
+			   <div class="panel-body">
+					<form action="" method="post">
+						{% csrf_token %}
+						{{ form.as_p }}
+						<button class="btn btn-primary">Comment</button>
+					</form>
+			   </div>
+		   </div>
+
+
+		</div>
+	
+			
+	{% endblock content %}
+
+{% block script %} {% endblock script %}
+
+
+
+
+
+

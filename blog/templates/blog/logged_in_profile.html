@@ -1,0 +1,79 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}
+
+
+{% endblock title%}
+
+{% block profile %}
+	<div class="fh5co-bio">
+		<figure>
+			<img src="{{ user.profile_picture.url }}" alt="Free HTML5 Bootstrap Template" class="img-responsive">
+		</figure>
+		<h3 class="heading">About Me</h3>
+		<h2>{{ user.name.username }}</h2>
+		<h2>{{ user.name.get_full_name }}</h2>
+		<h2>{{ user.name.email }}</h2>
+		<p>{{ user.details }}</p>
+		<ul class="fh5co-social">
+			<li><a href="#"><i class="icon-twitter"></i></a></li>
+			<li><a href="#"><i class="icon-facebook"></i></a></li>
+			<li><a href="#"><i class="icon-instagram"></i></a></li>
+		</ul>
+	</div>	
+
+{% endblock profile %}
+{% block stylesheet %} 
+<style>
+  .alert{
+    height: 50px;
+    margin-top: 200px;
+  }
+</style>
+
+{% endblock stylesheet %}
+	<!-- END #fh5co-header -->
+  {% block content %}
+  <div class="container">
+  
+  {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
+    </div>
+  {% endif %}
+    <!-- END #fh5co-header -->
+        <a href="{% url 'create' %}" class="btn btn-primary pull pull-right">Add new article</a>
+    <table class="table">
+        <thead>
+          <tr>
+            
+            <th scope="col">Title</th>
+            <th scope="col">Posted On</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+          <tr>
+           
+            <td><a href="{% url 'single_post' id=post.id %}">{{ post.title }}</a></td>
+            <td>{{ post.posted_on }}</td>
+            <td><a href="{% url 'delete' id=post.id %}">Delete</a> || <a href="{% url 'update' id=post.id %}">Edit</a></td>
+          </tr>
+        {% endfor %} 
+        </tbody>
+      </table>
+    </div>
+
+			
+	{% endblock content %}
+
+{% block script %} {% endblock script %}
+
+
+
+
+
+

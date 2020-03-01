@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}Welcome to home page{% endblock title%}
+{% block stylesheet %} {% endblock stylesheet %}
+	<!-- END #fh5co-header -->
+	{% block content %}
+
+	<div class="container">
+
+        <form action="" method="post" enctype="multipart/form-data">
+            <fieldset class="col-md-6">
+                <legend>Please fill this form for Registration.</legend>
+           
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Register">
+        </fieldset>
+        </form>
+    </div>
+
+	{% endblock content %}
+
+{% block script %} {% endblock script %}
+
+
+	
