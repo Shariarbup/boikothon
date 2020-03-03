@@ -17,5 +17,8 @@ urlpatterns = [
     path('update_topic/<name>/', views.getupdatetopic, name="update-topic"),
     path('delete_topic/<name>/', views.getdeletetopic, name="delete-topic"),
 
+    #account confirmation
+    path('activate/<uid>/<token>', views.activate, name='activate')
+
 
 ]

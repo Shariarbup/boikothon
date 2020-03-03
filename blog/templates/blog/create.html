@@ -13,6 +13,7 @@
                 <legend>Please fill of this for creating a new post</legend>
            
             {% csrf_token %}
+            {{ form.media }}
             {{ form|crispy }}
             <input type="submit" value="Publish">
         </fieldset>

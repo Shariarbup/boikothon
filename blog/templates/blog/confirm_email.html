@@ -1,0 +1,7 @@
+{% autoescape off %}
+Hi, {{ user.username }},
+Thanks for your registration in islamiboikothon.
+Please click on the link below to confirm your registration,
+http://{{ domain }}{% url 'activate' uid=uid token=token %}
+{% endautoescape %}
+

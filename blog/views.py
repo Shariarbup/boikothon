@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect, Http404
+from django.shortcuts import render,HttpResponse, get_object_or_404, redirect, Http404
 from .models import Author, Article, Category, Comment
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.models import User
@@ -6,6 +6,13 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from .forms import CreateForm, userRegisterForm, createAuthor, commentForm, categoryForm
 from django.contrib import messages
+
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.core.mail import send_mail
+from .token import activation_token
+
 # Create your views here.
 
 def index(request):
@@ -18,7 +25,6 @@ def index(request):
 
         )
     paginator = Paginator(posts, 4) # Show 25 contacts per page.
-
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -164,9 +170,21 @@ def getregister(request):
     form = userRegisterForm(request.POST or None)
     if form.is_valid():
         instance =  form.save(commit=False)
+        instance.is_active = False
         instance.save()
-        messages.success(request, 'Your account has been created. Now please login with your username and password')
-        return redirect('login')
+        site = get_current_site(request)
+        mail_subject = 'Confirmation message for blog'
+        message = render_to_string('blog/confirm_email.html',{
+            'user':instance,
+            'domain':site.domain,
+            'uid':instance.id,
+            'token':activation_token.make_token(instance)
+        })
+        to_email = form.cleaned_data.get('email')
+        to_list = [to_email]
+        form_email = settings.EMAIL_HOST_USER
+        send_mail(mail_subject, message,form_email, to_list, fail_silently=True)
+        return HttpResponse('<h1>Thank you, for your Registration, A confirmation email was send to your email.</h1>')
     context={
         'form':form,
     }
@@ -219,3 +237,15 @@ def getdeletetopic(request, name):
         return redirect('topics')
     else:
         return redirect('login')
+
+def activate(request, uid, token):
+    try:
+        user = get_object_or_404(User, pk=uid)
+    except:
+        raise Http404("No user found.")
+    if user is not None and activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return render(request, 'blog/confirmation_success.html')
+    else:
+        return HttpResponse('<h3>Invalid activation link </h3>')

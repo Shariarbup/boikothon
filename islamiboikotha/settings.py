@@ -38,8 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    
+    
+    # 3rd party app
     'crispy_forms',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
+
+CKEDITOR_UPLOAD_PATH='uploads/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,9 +128,10 @@ USE_TZ = True
 CRISPY_TEMPLATE_PACK='bootstrap3'
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 MESSAGE_TAGS = {
     messages.INFO: 'alert alert-info',
@@ -133,3 +141,9 @@ MESSAGE_TAGS = {
     messages.DEBUG: 'alert alert-info',
     
 }
+
+EMAIL_USE_TLS=True
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='itmasjoy@gmail.com'
+EMAIL_HOST_PASSWORD='26071119975593'
+EMAIL_PORT=587
