@@ -6,7 +6,7 @@
 {% endblock title%}
 
 {% block profile %}
-	<div class="fh5co-bio">
+	<!-- <div class="fh5co-bio">
 		<figure>
 			<img src="{{ user.profile_picture.url }}" alt="Free HTML5 Bootstrap Template" class="img-responsive">
 		</figure>
@@ -20,7 +20,7 @@
 			<li><a href="#"><i class="icon-facebook"></i></a></li>
 			<li><a href="#"><i class="icon-instagram"></i></a></li>
 		</ul>
-	</div>	
+	</div>	 -->
 
 {% endblock profile %}
 {% block stylesheet %} 
@@ -44,24 +44,34 @@
     </div>
   {% endif %}
     <!-- END #fh5co-header -->
-        <a href="{% url 'create' %}" class="btn btn-info pull pull-right">Add new article</a>
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_staff or request.user.is_superuser %}
+        <a href="{% url 'new-topic' %}" class="btn btn-info pull pull-right">Add new Category</a>
+        {% endif %}
+    {% endif %}
     <table class="table">
         <thead>
           <tr>
             
-            <th scope="col">Title</th>
-            <th scope="col">Posted On</th>
-            <th scope="col">Action</th>
+            <th scope="col">Category</th>
+            {% if request.user.is_authenticated %}
+                {% if request.user.is_staff or request.user.is_superuser %}
+                <th scope="col">Action</th>
+                {% endif %}
+            {% endif %}
           </tr>
         </thead>
         <tbody>
-        {% for post in posts %}
+        {% for topic in topics %}
           <tr>
            
-            <td><a class="text-primary" href="{% url 'single_post' id=post.id %}">{{ post.title }}</a></td>
-            <td>{{ post.posted_on }}</td>
-            <td><a class="text-primary" href="{% url 'delete' id=post.id %}">Delete</a> || <a class="text-primary" href="{% url 'update' id=post.id %}">Edit</a></td>
-          </tr>
+            <td><a class="text-primary" href="{% url 'category' name=topic.name %}">{{ topic.name }}</a></td>
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_staff or request.user.is_superuser %}
+            <td><a class="text-primary" href="{% url 'delete-topic' name=topic.name %}">Delete</a> || <a class="text-primary" href="{% url 'update-topic' name=topic.name %}">Edit</a></td>
+            {% endif %}
+        {% endif %}
+        </tr>
         {% endfor %} 
         </tbody>
       </table>

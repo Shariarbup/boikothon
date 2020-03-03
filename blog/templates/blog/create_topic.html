@@ -1,20 +1,21 @@
 {% extends 'blog/base.html' %}
-{% load crispy_forms_tags %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}Welcome to home page{% endblock title%}
 {% block stylesheet %} {% endblock stylesheet %}
 	<!-- END #fh5co-header -->
 	{% block content %}
 
 	<div class="container">
+    
 
         <form action="" method="post" enctype="multipart/form-data">
             <fieldset class="col-md-6">
-                <legend>Please fill this form for Registration.</legend>
+                <legend>Add New Category:</legend>
            
             {% csrf_token %}
             {{ form|crispy }}
-            <input type="submit" value="Register">
+            <input type="submit" value="Add Category">
         </fieldset>
         </form>
     </div>
@@ -22,6 +23,3 @@
 	{% endblock content %}
 
 {% block script %} {% endblock script %}
-
-
-	

@@ -1,10 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, Http404
 from .models import Author, Article, Category, Comment
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .forms import CreateForm, userRegisterForm, createAuthor, commentForm
+from .forms import CreateForm, userRegisterForm, createAuthor, commentForm, categoryForm
 from django.contrib import messages
 # Create your views here.
 
@@ -171,4 +171,51 @@ def getregister(request):
         'form':form,
     }
     return render(request, 'blog/register.html', context)
-    
+
+
+def gettopic(request):
+    topics = Category.objects.all()
+    return render(request,'blog/topic.html', {'topics':topics})
+
+
+def getnewtopic(request):
+    if request.user.is_authenticated:
+        if request.user.is_staff or request.user.is_superuser:
+            form = categoryForm(request.POST or None)
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.save()
+                messages.success(request,'Created a new topic successfully')
+                return redirect('topics')
+            return render(request,'blog/create_topic.html', {'form':form})
+        else:
+            raise Http404('You are not authorized to this page')
+
+    else:
+        return redirect('login')
+
+def getupdatetopic(request, name):
+    if request.user.is_authenticated:
+        category = get_object_or_404(Category, name=name)
+        form = categoryForm(request.POST or None, instance=category)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+            messages.success(request,'Category is updated successfully.')
+            return redirect('topics')
+       
+        context = {
+            'form':form
+        }
+        return render(request, 'blog/create_topic.html', context)
+    else:
+        return redirect('login')
+
+def getdeletetopic(request, name):
+    if request.user.is_authenticated:
+        category = get_object_or_404(Category, name=name)
+        category.delete()
+        messages.success(request,'Category is deleted successfully.')
+        return redirect('topics')
+    else:
+        return redirect('login')

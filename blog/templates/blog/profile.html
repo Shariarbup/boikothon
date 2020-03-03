@@ -47,17 +47,23 @@
 				<figure>
 					<a href="{% url 'single_post' id=post.id %}"><img src="{{ post.image.url }}" alt="Image" class="img-responsive"></a>
 				</figure>
-				<span class="fh5co-meta"><a href="{% url 'category' name=post.category.name %}">{{ post.category.name }}</a></span>
-				<h2 class="fh5co-article-title"><a href="{% url 'single_post' id=post.id %}">{{ post.title }}</a></h2>
-				<h4><a href="{% url 'author' name=post.article_author.name.username %}">{{ post.article_author.name.get_full_name }}</a></h4>
-				<span class="fh5co-meta fh5co-date">{{ post.posted_on }}</span>
+				<span class=""><a class="bg-primary" href="{% url 'category' name=post.category.name %}">{{ post.category.name }}</a></span>
+				<h2 class="bg-info"><a  href="{% url 'single_post' id=post.id %}">{{ post.title }}</a></h2>
+				<h4><a class="text-primary" href="{% url 'author' name=post.article_author.name.username %}">{{ post.article_author.name.get_full_name }}</a></h4>
+				<span class=" fh5co-date bg-info ">{{ post.posted_on|timesince }} ago</span>
+				<p class="text-justify">{{ post.body|truncatewords:15 }}
+					<a class="btn btn-info view overlay zoom" href="{% url 'single_post' id=post.id %}">Read More</a>
+				</p>
+
 			</article>
 			
 	
 	       {% endfor %}
 			
-		   <div class="container-fluid my-3">
-			<div class="pagination">
+		   <div class="container">
+			<div class="row d-flex justify-content-center">
+			<div class="col-md-6">
+			<div class="pagination ">
 				<span class="step-links">
 					{% if posts.has_previous %}
 						<a href="?page=1">&laquo; first</a>
@@ -73,6 +79,8 @@
 						<a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
 					{% endif %}
 				</span>
+			</div>
+			</div>
 			</div>
 			</div>
 			

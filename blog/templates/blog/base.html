@@ -68,13 +68,16 @@
 				<h3 class="heading">Menu</h3>
 				<ul>
 					<li><a href="{% url 'index' %}">Blog</a></li>
+					<li><a href="{% url 'topics' %}">All Category</a></li>
 					
 					
 					
 					
 					{% if request.user.is_authenticated %}
 					<li><a href="{% url 'profile' %}">profile</a></li>
+					{% if request.user.is_staff or request.user.is_superuser %}
 					<li><a href="{% url 'create' %}">Create new post</a></li>
+					{% endif %}
 					<li><a href="{% url 'logout' %}">Logout</a></li>
 					{% else %}
 					<li><a href="{% url 'login' %}">Login</a></li>

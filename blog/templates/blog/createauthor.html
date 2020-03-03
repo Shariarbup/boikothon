@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}Welcome to home page{% endblock title%}
 {% block stylesheet %} {% endblock stylesheet %}
 	<!-- END #fh5co-header -->
@@ -12,7 +13,7 @@
                 <legend>Please update your profile or you cannot access your profile</legend>
            
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|crispy }}
             <input type="submit" value="Update profile">
         </fieldset>
         </form>

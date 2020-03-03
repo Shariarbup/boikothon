@@ -12,5 +12,10 @@ urlpatterns = [
     path('profile/', views.getprofile, name="profile"),
     path('update/<int:id>/', views.getupdate, name="update"),
     path('delete/<int:id>/', views.getdelete, name="delete"),
+    path('topics/', views.gettopic, name="topics"),
+    path('create/topic/', views.getnewtopic, name="new-topic"),
+    path('update_topic/<name>/', views.getupdatetopic, name="update-topic"),
+    path('delete_topic/<name>/', views.getdeletetopic, name="delete-topic"),
+
 
 ]
