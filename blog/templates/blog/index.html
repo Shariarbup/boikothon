@@ -5,10 +5,10 @@
 	<!-- END #fh5co-header -->
 	{% block content %}
 
-
-	
+   <div class="container">
+	<div class="row">
 	{% for post in posts %}
-
+	
 			<article class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
 				<figure>
 					<a href="{% url 'single_post' id=post.id %}"><img src="{{ post.image.url }}" alt="Image" class="img-responsive"></a>
@@ -17,13 +17,16 @@
 				<h2 class="bg-info"><a  href="{% url 'single_post' id=post.id %}">{{ post.title }}</a></h2>
 				<h4><a class="text-primary" href="{% url 'author' name=post.article_author.name.username %}">{{ post.article_author.name.get_full_name }}</a></h4>
 				<span class=" fh5co-date bg-info ">{{ post.posted_on|timesince }} ago</span>
-				<p class="text-justify">{{ post.body|truncatewords:15 }}
-					<a class="btn btn-info view overlay zoom" href="{% url 'single_post' id=post.id %}">Read More</a>
+				<p class="text-justify">{{ post.body|safe|truncatewords:15}}
+					<a class="btn btn-info view overlay zoom w-100" href="{% url 'single_post' id=post.id %}">Read More</a>
 				</p>
 
 			</article>
+		
 
 	{% endfor %}
+</div>
+</div>
 
 	<div class="container">
 	<div class="row d-flex justify-content-center">

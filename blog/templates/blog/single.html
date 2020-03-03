@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}
 
 
@@ -24,7 +25,45 @@
 
 {% endblock profile %}
 {% block stylesheet %} 
+<style>
 
+	/*----------------------------*\
+	comments
+\*----------------------------*/
+.post-comments .media {
+	padding-top: 15px;
+	border-top: 1px solid #eceef2;
+}
+.post-comments .media:nth-child(1) {
+	padding-top: 0px;
+	border-top: none;
+}
+.post-comments .media .media-left {
+	padding-right: 15px;
+}
+.post-comments .media .media-left .media-object {
+	width:70px;
+	border-radius: 50%;
+}
+.post-comments .media .media-body .media-heading h4 {
+	text-transform: capitalize;
+}
+.post-comments .media .media-body .media-heading .time {
+	font-size: 13px;
+	margin-right: 15px;
+	color: #a7b3c6;
+}
+.post-comments .media .media-body .media-heading .reply {
+	font-size: 13px;
+	color: #a7b3c6;
+	-webkit-transition: 0.2s color;
+	transition: 0.2s color;
+}
+.post-comments .media .media-body .media-heading .reply:hover, .post-comments .media .media-body .media-heading .reply:focus {
+	color: #212631;
+	text-decoration: none;
+}
+</style>
 
 {% endblock stylesheet %}
 	<!-- END #fh5co-header -->
@@ -48,6 +87,7 @@
 				</figure>
 				<span class="fh5co-meta animate-box"><a class="bg-primary" href="{% url 'category' name=post.category.name %}">{{ post.category.name }}</a></span>
 				<h1 class="animate-box bg-info ">{{ post.title }}</h1>
+				<a href="{% url 'author' name=post.article_author.name.username %}"><h1 class="animate-box bg-info ">{{ post.article_author.name.get_full_name }}</h1></a>
 				<span class="fh5co-meta fh5co-date animate-box bg-info">{{ post.posted_on }}</span>
 				
 				<div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
@@ -101,14 +141,42 @@
 				   </div>
 				   <div class="panel-body">
 					{% for comment in comments %}
-					<div class="single_comment">
+					<div class="panel-body">
+
+					<div class="section-row">
+						<!-- <div class="section-title">
+							<h2>3 Comments</h2>
+						</div> -->
+
+						<div class="post-comments">
+							<!-- comment -->
+							<div class="media">
+								<div class="media-left">
+									<img class="media-object" src="{{ post.article_author.profile_picture.url }}" alt="">
+								</div>
+								<div class="media-body">
+									<div class="media-heading">
+										<h4>{{ comment.name }}</h4>
+										<span class="time">{{ comment.comment_time }}</span>
+										<a href="#" class="reply">Reply</a>
+									</div>
+									<p>{{ comment.post_comment }}</p>
+								</div>
+							</div>
+						
+						</div>
+					</div>
+					<hr>
+					<!-- /comments -->
+					<!-- <div class="single_comment">
 					 <h4>{{ comment.name }}</h4>
 					 <h5>{{ comment.email }}</h5>
 					 <p>{{ comment.post_comment }}</p>
-					</div>
+					</div> -->
 						{% empty %}
 						<h3>Sorry, No comments found.</h3>
-
+					</div>
+					
 					{% endfor %}
 
 				   </div>
@@ -123,7 +191,7 @@
 			   <div class="panel-body">
 					<form action="" method="post">
 						{% csrf_token %}
-						{{ form.as_p }}
+						{{ form|crispy }}
 						<button class="btn btn-primary">Comment</button>
 					</form>
 			   </div>

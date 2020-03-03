@@ -16,7 +16,7 @@ from .token import activation_token
 # Create your views here.
 
 def index(request):
-    posts = Article.objects.all()
+    posts = Article.objects.all().order_by('-posted_on')
     search = request.GET.get('q')
     if search:
         posts = posts.filter(

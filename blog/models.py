@@ -37,5 +37,6 @@ class Comment(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=200)
     post_comment = models.TextField()
+    comment_time = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.post.title

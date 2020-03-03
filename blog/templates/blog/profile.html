@@ -51,7 +51,7 @@
 				<h2 class="bg-info"><a  href="{% url 'single_post' id=post.id %}">{{ post.title }}</a></h2>
 				<h4><a class="text-primary" href="{% url 'author' name=post.article_author.name.username %}">{{ post.article_author.name.get_full_name }}</a></h4>
 				<span class=" fh5co-date bg-info ">{{ post.posted_on|timesince }} ago</span>
-				<p class="text-justify">{{ post.body|truncatewords:15 }}
+				<p class="text-justify">{{ post.body|safe|truncatewords:15 }}
 					<a class="btn btn-info view overlay zoom" href="{% url 'single_post' id=post.id %}">Read More</a>
 				</p>
 

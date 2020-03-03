@@ -6,21 +6,7 @@
 {% endblock title%}
 
 {% block profile %}
-	<div class="fh5co-bio">
-		<figure>
-			<img src="{{ post.article_author.profile_picture.url }}" alt="Free HTML5 Bootstrap Template" class="img-responsive">
-		</figure>
-		<h3 class="heading">About Me</h3>
-		<h2>{{ post.article_author.name.username }}</h2>
-		<h2>{{ post.article_author.name.get_full_name }}</h2>
-		<h2>{{ post.article_author.name.email }}</h2>
-		<p>{{ post.article_author.details }}</p>
-		<ul class="fh5co-social">
-			<li><a href="#"><i class="icon-twitter"></i></a></li>
-			<li><a href="#"><i class="icon-facebook"></i></a></li>
-			<li><a href="#"><i class="icon-instagram"></i></a></li>
-		</ul>
-	</div>	
+
 
 {% endblock profile %}
 {% block stylesheet %} 
