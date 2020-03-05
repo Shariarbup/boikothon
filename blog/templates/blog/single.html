@@ -79,128 +79,149 @@
 			{% endif %}
 	{% endif %}
 	<!-- END #fh5co-header -->
-	<div class="container-fluid">
-		<div class="row fh5co-post-entry single-entry">
-			<article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
-				<figure class="animate-box">
-					<img src="{{ post.image.url }}" alt="Image" class="img-responsive">
-				</figure>
-				<span class="fh5co-meta animate-box"><a class="bg-primary" href="{% url 'category' name=post.category.name %}">{{ post.category.name }}</a></span>
-				<h1 class="animate-box bg-info ">{{ post.title }}</h1>
-				<a href="{% url 'author' name=post.article_author.name.username %}"><h1 class="animate-box bg-info ">{{ post.article_author.name.get_full_name }}</h1></a>
-				<span class="fh5co-meta fh5co-date animate-box bg-info">{{ post.posted_on }}</span>
-				
-				<div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
-					<div class="row">
-						<div class="col-lg-12 cp-r animate-box">
-							<p class="text-justify">
-								{{ post.body|safe }}
-							</p>
-						</div>
+	<div class="row">
+		<div class="container-fluid">
+			<div class="row fh5co-post-entry single-entry">
+				<article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0 animated-box">
+					<h1 class="text-left">Book: {{ post.title }}</h1> <br>
+					
+					<figure class="">
+						<img src="{{ post.image.url }}" alt="Image" class="img-responsive">
+					</figure>
+					<code class="text-left">
+						<span class="label label-default"><a href="{% url 'category' name=post.category.name %}">Category: {{ post.category.name }}</a></span>
 						
+						| <span class="label label-default"><a href="{% url 'author' name=post.article_author.name.username %}">{{ post.article_author.name.get_full_name }}</a></span>
+						| <span class="label label-default">Published: {{ post.posted_on }}</span>
+					</code>
+					
+					<div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
+						<div class="row">
+							<div class="col-lg-12 cp-r">
+								<p class="text-justify">
+									{{ post.body|safe }}
+								</p>
+							</div>						
+						</div>					
+					</div>					
 					</div>
+				</article>
+		</div>
+	</div>
 
-					
-				</div>
-
-					
-					
-					
-				</div>
-			</article>
-
+		<div class="row">
 			<div class="container">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h2 class="panel-title">Related Post</h2>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								{% for post in related_posts %}
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
+									<div class="thumbnail">
+										<a href="{% url 'single_post' id=post.id %}"><img src="{{ post.image.url }}" alt="Image" class="img-responsive"></a>
+									<div class="caption">
+										<code>
+											<span class="label label-primary"><a class="bg-primary" href="{% url 'category' name=post.category.name %}">{{ post.category.name }}</a></span>
+											<span class="label label-info"><a class="text-primary" href="{% url 'author' name=post.article_author.name.username %}">{{ post.article_author.name.get_full_name }}</a></span>
+										</code>
+										<h3><a class="text-success" href="{% url 'single_post' id=post.id %}">{{ post.title }}</a></h3>
+										<p class="text-justify">{{ post.body|safe|truncatewords:15}}</p>
+										<p><a href="{% url 'single_post' id=post.id %}" class="btn btn-info btn-lg btn-block active" role="button">Read More</a></p>
+										<code>
+										<span class="label label-default">{{ post.posted_on|timesince }} ago</span>
+									</code>
+									</div>
+									</div>
+								</div>
+								{% empty %}
+									<div class="container">
+										<h3>Sorry, there is no related post of this category.</h3>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="container">
+			<div class="single_post_comment">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h2 class="panel-title">Related Post</h2>
+						<h3 class="panel-title">All Comments</h3>
 					</div>
 					<div class="panel-body">
-						<div class="row">
-							{% for related_post in related_posts %}
-							<div class="col-md-3">
-								<figure class="animate-box">
-									<a href="{% url 'single_post' id=related_post.id %}"><img src="{{ related_post.image.url }}" alt="Image" class="img-responsive"></a>
-								</figure>
-								<a href="{% url 'single_post' id=related_post.id %}"><h2 class="fh5co-article-title animate-box text-center">{{ related_post.title }}</h2></a>
-								<p class="text-justify">{{ related_post.body|truncatewords:15 }}
-								<a class="btn btn-info view overlay zoom" href="{% url 'single_post' id=post.id %}">Read More</a>
-								</p>
+						{% for comment in comments %}
+						<div class="panel-body">
+
+						<div class="section-row">
+							<!-- <div class="section-title">
+								<h2>3 Comments</h2>
+							</div> -->
+
+							<div class="post-comments">
+								<!-- comment -->
+								<div class="media">
+									<div class="media-left">
+										<img class="media-object" src="{{ post.article_author.profile_picture.url }}" alt="">
+									</div>
+									<div class="media-body">
+										<div class="media-heading">
+											<h4>{{ comment.name }}</h4>
+											<span class="time">{{ comment.comment_time }}</span>
+											<a href="#" class="reply">Reply</a>
+										</div>
+										<p>{{ comment.post_comment }}</p>
+									</div>
+								</div>
+							
 							</div>
-							{% endfor %}
 						</div>
+						<hr>
+						<!-- /comments -->
+						<!-- <div class="single_comment">
+						<h4>{{ comment.name }}</h4>
+						<h5>{{ comment.email }}</h5>
+						<p>{{ comment.post_comment }}</p>
+						</div> -->
+							{% empty %}
+							<h3>Sorry, No comments found.</h3>
+						</div>
+						
+						{% endfor %}
+
 					</div>
 				</div>
-				
-		   </div>
-
-		   <div class="container">
-		   <div class="single_post_comment">
-			   <div class="panel panel-default">
-				   <div class="panel-heading">
-					   <h3 class="panel-title">All Comments</h3>
-				   </div>
-				   <div class="panel-body">
-					{% for comment in comments %}
-					<div class="panel-body">
-
-					<div class="section-row">
-						<!-- <div class="section-title">
-							<h2>3 Comments</h2>
-						</div> -->
-
-						<div class="post-comments">
-							<!-- comment -->
-							<div class="media">
-								<div class="media-left">
-									<img class="media-object" src="{{ post.article_author.profile_picture.url }}" alt="">
-								</div>
-								<div class="media-body">
-									<div class="media-heading">
-										<h4>{{ comment.name }}</h4>
-										<span class="time">{{ comment.comment_time }}</span>
-										<a href="#" class="reply">Reply</a>
-									</div>
-									<p>{{ comment.post_comment }}</p>
-								</div>
-							</div>
-						
-						</div>
-					</div>
-					<hr>
-					<!-- /comments -->
-					<!-- <div class="single_comment">
-					 <h4>{{ comment.name }}</h4>
-					 <h5>{{ comment.email }}</h5>
-					 <p>{{ comment.post_comment }}</p>
-					</div> -->
-						{% empty %}
-						<h3>Sorry, No comments found.</h3>
-					</div>
-					
-					{% endfor %}
-
-				   </div>
-			   </div>
-		
-		   </div>
-		  
-		   <div class="panel panel-default">
-			   <div class="panel-heading">
-				   <h4 class="panel-title">Comment Here</h4>
-			   </div>
-			   <div class="panel-body">
-					<form action="" method="post">
-						{% csrf_token %}
-						{{ form|crispy }}
-						<button class="btn btn-primary">Comment</button>
-					</form>
-			   </div>
-		   </div>
-		  </div>
-
-
-
+			
+			</div>
+			</div>
 		</div>
+
+		<div class="row">
+			<div class="container">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">Comment Here</h4>
+				</div>
+				<div class="panel-body">
+						<form action="" method="post">
+							{% csrf_token %}
+							{{ form|crispy }}
+							<button class="btn btn-primary">Comment</button>
+						</form>
+				</div>
+			</div>
+			</div>
+		</div>
+		
+
+
+
+		
 	
 			
 	{% endblock content %}

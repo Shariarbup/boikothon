@@ -8,20 +8,24 @@
    <div class="container">
 	<div class="row">
 	{% for post in posts %}
-	
-			<article class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
-				<figure>
-					<a href="{% url 'single_post' id=post.id %}"><img src="{{ post.image.url }}" alt="Image" class="img-responsive"></a>
-				</figure>
-				<span class=""><a class="bg-primary" href="{% url 'category' name=post.category.name %}">{{ post.category.name }}</a></span>
-				<h2 class="bg-info"><a  href="{% url 'single_post' id=post.id %}">{{ post.title }}</a></h2>
-				<h4><a class="text-primary" href="{% url 'author' name=post.article_author.name.username %}">{{ post.article_author.name.get_full_name }}</a></h4>
-				<span class=" fh5co-date bg-info ">{{ post.posted_on|timesince }} ago</span>
-				<p class="text-justify">{{ post.body|safe|truncatewords:15}}
-					<a class="btn btn-info view overlay zoom w-100" href="{% url 'single_post' id=post.id %}">Read More</a>
-				</p>
 
-			</article>
+	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box">
+		<div class="thumbnail">
+			<a href="{% url 'single_post' id=post.id %}"><img src="{{ post.image.url }}" alt="Image" class="img-responsive"></a>
+		  <div class="caption">
+			<code>
+				<span class="label label-primary"><a class="bg-primary" href="{% url 'category' name=post.category.name %}">{{ post.category.name }}</a></span>
+				<span class="label label-info"><a class="text-primary" href="{% url 'author' name=post.article_author.name.username %}">{{ post.article_author.name.get_full_name }}</a></span>
+			</code>
+			<h3><a class="text-success" href="{% url 'single_post' id=post.id %}">{{ post.title }}</a></h3>
+			<p class="text-justify">{{ post.body|safe|truncatewords:15}}</p>
+			<p><a href="{% url 'single_post' id=post.id %}" class="btn btn-info btn-lg btn-block active" role="button">Read More</a></p>
+			<code>
+			<span class="label label-default">{{ post.posted_on|timesince }} ago</span>
+		   </code>
+		</div>
+		</div>
+	  </div>
 		
 
 	{% endfor %}
@@ -29,24 +33,28 @@
 </div>
 
 	<div class="container">
-	<div class="row d-flex justify-content-center">
+	<div class="row">
 	<div class="col-md-6">
 	<div class="pagination ">
-		<span class="step-links">
+		<nav aria-label="Page navigation">
+			<ul class="pager">
+		
 			{% if posts.has_previous %}
-				<a href="?page=1">&laquo; first</a>
-				<a href="?page={{ posts.previous_page_number }}">previous</a>
+			   <li>	<a href="?page=1">&laquo; first</a></li>
+			   <li><a href="?page={{ posts.previous_page_number }}">previous</a></li>
 			{% endif %}
 	
-			<span class="current">
-				Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
-			</span>
+			
+				<li>Page {{ posts.number }} of {{ posts.paginator.num_pages }}.</li>
+			
 	
 			{% if posts.has_next %}
-				<a href="?page={{ posts.next_page_number }}">next</a>
-				<a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+			<li><a href="?page={{ posts.next_page_number }}">next</a></li>
+			<li><a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a></li>
 			{% endif %}
-		</span>
+		</ul>
+		
+	</nav>
 	</div>
 	</div>
 	</div>
