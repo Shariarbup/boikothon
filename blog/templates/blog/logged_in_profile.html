@@ -6,15 +6,23 @@
 {% endblock title%}
 
 {% block profile %}
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div>{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
 	<div class="fh5co-bio">
 		<figure>
-			<img src="{{ user.profile_picture.url }}" alt="Free HTML5 Bootstrap Template" class="img-responsive">
+			<img src="{{ user.profile_picture.url }}" alt="image is not found" class="img-circle" style="width: 400px;">
 		</figure>
-		<h3 class="heading">About Me</h3>
-		<h2>{{ user.name.username }}</h2>
+		<h1 class="heading">About Me :</h1>
+		<!-- <h2>{{ user.name.username }}</h2> -->
 		<h2>{{ user.name.get_full_name }}</h2>
 		<h2>{{ user.name.email }}</h2>
-		<p>{{ user.details }}</p>
+    <p>{{ user.details }}</p>
+    <span><a href="{% url 'update-profile' id=user.id%}">Update your profile</a></span>
 		<ul class="fh5co-social">
 			<li><a href="#"><i class="icon-twitter"></i></a></li>
 			<li><a href="#"><i class="icon-facebook"></i></a></li>
@@ -36,13 +44,7 @@
   {% block content %}
   <div class="container">
   
-  {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
-        {% endfor %}
-    </div>
-  {% endif %}
+
     <!-- END #fh5co-header -->
         <a href="{% url 'create' %}" class="btn btn-info pull pull-right">Add new article</a>
     <table class="table">

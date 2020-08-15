@@ -10,6 +10,7 @@ urlpatterns = [
     path('logout/', views.getlogout, name="logout"),
     path('create/', views.getcreate, name="create"),
     path('profile/', views.getprofile, name="profile"),
+    path('profile/<int:id>/', views.getupdateprofile, name="update-profile"),
     path('update/<int:id>/', views.getupdate, name="update"),
     path('delete/<int:id>/', views.getdelete, name="delete"),
     path('topics/', views.gettopic, name="topics"),

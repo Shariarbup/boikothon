@@ -7,10 +7,10 @@
 
 {% endblock title%}
 
-{% block profile %}
+{% block post-profile %}
 	<div class="fh5co-bio">
 		<figure>
-			<img src="{{ auth.profile_picture.url }}" alt="Free HTML5 Bootstrap Template" class="img-responsive">
+			<img src="{{ auth.profile_picture.url }}" alt="Image is not found" class="img-responsive">
 		</figure>
 		<h3 class="heading">About Me</h3>
 		<h2>{{ auth.name.username }}</h2>
@@ -24,7 +24,8 @@
 		</ul>
 	</div>	
 
-{% endblock profile %}
+{% endblock post-profile %}
+
 {% block stylesheet %} 
 
 

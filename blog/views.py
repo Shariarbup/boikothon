@@ -166,6 +166,24 @@ def getprofile(request):
         return redirect('login')
 
 
+def getupdateprofile(request, id):
+    u = get_object_or_404(Author, id=request.user.id)
+    if request.user.is_authenticated:
+        form = createAuthor(request.POST or None, instance=u)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+            messages.success(request,'Your profile is updated successfully.')
+            return redirect('profile')
+       
+        context = {
+            'form':form
+        }
+        return render(request, 'blog/updateprofile.html', context)
+    else:
+        return redirect('login')
+
+
 def getregister(request):
     form = userRegisterForm(request.POST or None)
     if form.is_valid():

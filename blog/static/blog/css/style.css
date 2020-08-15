@@ -17,6 +17,14 @@ body {
   color: #222;
   background: #fff;
 }
+
+
+
+
+
+
+
+
 body.fh5co-overflow {
   overflow-x: auto;
 }
@@ -288,6 +296,59 @@ p {
 #fh5co-header #fh5co-logo a sup {
   font-size: 20px;
   top: -20px;
+}
+
+
+
+
+/* My customize css */
+
+#fh5co-header #navbartwo{
+	background-color:#fff;
+	height:38px;
+	border-bottom:5px solid #6B710E;
+}
+#fh5co-header #navbartwo ul{
+	background-color:#fff;
+	list-style-type:none;
+}
+#fh5co-header #navbartwo ul li{
+	float:left;
+	border-right:1px solid #6B710E;
+}
+#fh5co-header #navbartwo ul li:last-child{
+	border-right:none;
+}
+#fh5co-header #navbartwo ul li a{
+	display:block;
+	padding:10px 20px;
+	text-decoration:none;
+	font-family:arial;
+	
+}
+#fh5co-header #navbartwo ul li a:hover{
+	color:#fff;
+	background-color:#000;
+}
+#fh5co-header #navbartwo ul li{
+	position:relative;
+}
+#fh5co-header #navbartwo ul li ul{
+	position:absolute;
+	left:-99999px;
+	z-index:999;
+}
+#fh5co-header #navbartwo ul li ul li{
+	float:none;
+	border-bottom:1px solid #6B710E;
+	width:200px;
+	border-right:none;
+}
+#fh5co-header #navbartwo ul li ul li:last-child{
+	border-bottom:none;
+}
+#fh5co-header #navbartwo ul li:hover ul{
+	left:0;
 }
 
 .fh5co-post-prev,
@@ -776,4 +837,4 @@ figure figcaption {
   }
 }
 
-/*# sourceMappingURL=style.css.map */
+
